@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Req, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, Req, Post, Body, HttpException, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
 import { Request } from 'express';
 import { CatsService } from './cats.service'
 import { Cat } from './interfaces/cat.interface'
@@ -20,6 +20,11 @@ export class CatsController {
       status: HttpStatus.FORBIDDEN,
       error: 'This is a custom message'
     }, HttpStatus.FORBIDDEN)
+  }
+
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.catsService.findOne(id)
   }
 
   @Post()
